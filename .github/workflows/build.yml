@@ -5,7 +5,7 @@ on:
     branches: [main, master]
   # 监听release创建事件，注意types英文为 created
   release:
-    types: [created]
+    types: [创建]
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
 
     - name: Build statically linked binary
       run: |
-        CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o v2dat -ldflags="-s -w -extldflags '-static'" ./main.go
+        CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o v2dat -ldflags="-s -w -extldflags '-static'" ./main.go
 
     - name: Verify binary
       run: file v2dat
