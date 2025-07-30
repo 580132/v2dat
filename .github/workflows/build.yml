@@ -1,22 +1,24 @@
-name: Build v2dat static binary
+name: Build and Release v2dat
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
+  # 监听release创建事件，注意types英文为 created
   release:
-    types: [创建]
+    types: [created]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout source code
+      uses: actions/checkout@v4
 
-    - name: Set up Go environment
+    - name: Set up Go
       uses: actions/setup-go@v4
       with:
-        go-version: '1.21'  # 可根据需要调整
+        go-version: "1.21"
 
     - name: Build statically linked binary
       run: |
@@ -25,8 +27,10 @@ jobs:
     - name: Verify binary
       run: file v2dat
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
+    - name: Publish to GitHub Release
+      uses: softprops/action-gh-release@v1
       with:
-        name: v2dat-linux-amd64
-        path: v2dat
+        tag_name: latest   # 指定发布的标签为 latest
+        files: v2dat
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
