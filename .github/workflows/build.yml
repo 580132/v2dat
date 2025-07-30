@@ -4,14 +4,14 @@ on:
   push:
     branches: [ main, master ]
   release:
-    types: [created]
+    types: [创建]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Go environment
       uses: actions/setup-go@v4
@@ -27,7 +27,7 @@ jobs:
       run: file v2dat
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: v2dat-linux-amd64
         path: v2dat
